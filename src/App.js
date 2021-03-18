@@ -1,42 +1,58 @@
 import logo from './logo.svg';
 import './App.css';
+import Header from './components/Header.js';
 
 function App() {
   return (
     <div className="shoppingCart">
-      <header>
-        <h1>Shopping Cart</h1>
-        <span className="dFlex spaceBetween">
-          <p>Home {'>'} Shopping Cart</p>
-          <p>3 items in the bag</p>
-        </span>
-      </header>
+      <Header />
+      <header></header>
 
       <hr></hr>
 
       <main>
         <div className="product dFlex spaceBetween alignItemsCenter">
-          <a className="productIMG"></a>
+          <a className="productIMG" href="/#"> </a>
           <div className="productINFO">
-            <a className="productName">PRODUCT ITEM NUMBER 1</a>
+            <a className="productName" href="/#">PRODUCT ITEM NUMBER 1</a>
             <p>Description for product item number 1</p>
             <p className="productPrice">$5.99</p>
           </div>
-          <div className="quantity"><input type="number" className="quantity" step="1" value="2"></input></div>
-          <a className="remove" href="#">x</a>
+          <div className="quantity"><input type="number" className="quantity" step="1" defaultValue="2"></input></div>
+          <a className="remove" href="/#">
+            <svg version="1.1"
+                 className="close"
+                 xmlns="//www.w3.org/2000/svg"
+                 xmlnsXlink="//www.w3.org/1999/xlink"
+                 x="0px" y="0px" viewBox="0 0 60 60"
+                 enableBackground="new 0 0 60 60"
+                 xmlSpace="preserve">
+                <polygon points="38.936,23.561 36.814,21.439 30.562,27.691 24.311,21.439 22.189,23.561 28.441,29.812 22.189,36.064 24.311,38.186 30.562,31.934 36.814,38.186 38.936,36.064 32.684,29.812"></polygon>
+            </svg>
+          </a>
         </div>
 
         <hr></hr>
 
         <div className="product dFlex spaceBetween alignItemsCenter">
-          <a className="productIMG"></a>
+          <a className="productIMG" href="/#"> </a>
           <div className="productINFO">
-            <a className="productName">PRODUCT ITEM NUMBER 2</a>
+            <a className="productName" href="/#">PRODUCT ITEM NUMBER 2</a>
             <p>Description for product item number 2</p>
             <p className="productPrice">$9.99</p>
           </div>
-          <div className="quantity"><input type="number" className="quantity" step="1" value="1"></input></div>
-          <a className="remove" href="#">x</a>
+          <div className="quantity"><input type="number" className="quantity" step="1" defaultValue="1"></input></div>
+          <a className="remove" href="/#">
+            <svg version="1.1"
+                 className="close"
+                 xmlns="//www.w3.org/2000/svg"
+                 xmlnsXlink="//www.w3.org/1999/xlink"
+                 x="0px" y="0px" viewBox="0 0 60 60"
+                 enableBackground="new 0 0 60 60"
+                 xmlSpace="preserve">
+                <polygon points="38.936,23.561 36.814,21.439 30.562,27.691 24.311,21.439 22.189,23.561 28.441,29.812 22.189,36.064 24.311,38.186 30.562,31.934 36.814,38.186 38.936,36.064 32.684,29.812"></polygon>
+            </svg>
+          </a>
         </div>
 
         <hr></hr>
@@ -71,7 +87,7 @@ function App() {
         </div>
 
         <div className="checkOut">
-          <button type="button" href="#">Check out {'>'}</button>
+          <button type="button" href="/#">Check out {'>'}</button>
         </div>
       </footer>
     </div>
