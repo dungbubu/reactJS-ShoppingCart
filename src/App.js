@@ -1,5 +1,9 @@
 import { useState } from 'react';
 import './App.css';
+import Header from './Header';
+import Main from './Main'
+import Modal from './Modal'
+import Footer from './Footer';
 
 const PRODUCTS = 
   [
@@ -55,6 +59,11 @@ const PROMOCODES =
 
 function App() {
   const [products, setProducts] = useState(PRODUCTS)
+  const [inputCode, setInputCode] = useState("");
+  const [discountPrice, setDiscountPrice] = useState(0)
+
+  const [modals, setModals] = useState(false)
+  const [getId, setGetId] = useState(0)
   // const [promotecodes, setPromoteCodes] = useState(PROMOCODES)
 
   // Khi cần thay đổi giá trị của biến thì dùng biến State
@@ -68,11 +77,32 @@ function App() {
   let subTotalPrice = 0;
   let taxPrice = 0;
   let totalPrice = 0;
+  let lastPrice = 0;
+
+
+  function checkCode()
+    {
+      for (let i=0; i<PROMOCODES.length; i++)
+        {
+          if (inputCode === PROMOCODES[i].code)
+            {
+              console.log("true")
+              setDiscountPrice(PROMOCODES[i].discountPercent);
+              console.log(discountPrice)
+            }
+          // if (inputCode !== PROMOCODES[i].code)
+          //   {
+          //     setDiscountPrice(0);
+          //   }
+        }
+    }
+
   for (let i=0; i<products.length; i++)
     {
       subTotalPrice += (products[i].price * products[i].quantity);
       taxPrice = 10 * subTotalPrice / 100;
-      // totalPrice = subTotalPrice + taxPrice
+      totalPrice = subTotalPrice + taxPrice;
+      lastPrice = totalPrice - (totalPrice * discountPrice / 100);
     }
 
   let totalItems = products.reduce(
@@ -103,17 +133,25 @@ function App() {
   //   {
   //     console.log("Thông tin sản phẩm", product);
   //   }
-
+  
   function handleClick(productID)  //Đây là hàm xóa phần tử trong mảng
     {
-      setProducts(products.filter(product => product.id !== productID.id));
+      setGetId(productID.id)
+      setModals(true)
+    }
+
+  function confirmModal(productID) //Đây là nút Ok
+    {
+      setProducts(products.filter(product => product.id !== getId ));
       // Viết kiểu khác setProducts( () => products.filter(product => product.id !== productID))
 
       //Cách khác là khai báo mảng mới const mangMoi = products.filter(product => product.id !== 
       //setProducts(mangMoi);
-
-
-      // console.log(productID.id);
+      setModals(false)
+    }
+  function closeModal()
+    {
+      setModals(false)
     }
 
   function updateQuantity(event, productID) //Event là tham số mặc định luôn tồn tại
@@ -129,27 +167,6 @@ function App() {
         }
       setProducts(mangMoi);
       // console.log(event.target.value)
-    }
-
-  let voucherCode = '';
-  function promocode(event)
-    {
-      voucherCode = event.target.value;
-      // console.log(voucherCode)
-    }
-
-  function checkCode()
-    {
-      for (let i=0; i<PROMOCODES.length; i++)
-      if (voucherCode === PROMOCODES[i].code)
-        {
-          console.log("true")
-          totalPrice = ( 100 - Number(PROMOCODES[i].discountPercent) ) * totalPrice;
-        }
-      else
-        {
-          totalPrice = subTotalPrice + taxPrice;
-        }
     }
 
 
@@ -221,42 +238,33 @@ function App() {
   
   return (
     <div className="shoppingCart">
-      <header className="container">
-        <h1>Shopping Cart</h1>
 
-        <ul className="breadcrumb">
-          <li>Home</li>
-          <li>Shopping Cart</li>
-        </ul>
+      <Header
+        totalItems={totalItems}
+      />
 
-        <span className="count">{totalItems} items in the bag</span>
-      </header>
 
-      <section className="container">
-        <ul className="products">
-          {listItems}
-        </ul>
-      </section>
+      <Main 
+        listItems={listItems}
+      />
 
-      <section className="container">
-        <div className="promotion">
-          <label htmlFor="promo-code">Have A Promo Code?</label>
-          <input type="text" id="promo-code" onChange={ (event) =>  promocode(event)}></input>
-          <button type="button" onClick = {checkCode}></button>
-        </div>
+      {modals === true && 
+        <Modal 
+          confirmModal={confirmModal}
+          closeModal={closeModal}
+        />}
 
-        <div className="summary">
-          <ul>
-            <li>Subtotal <span>{subTotalPrice} $</span></li>
-            <li>Tax <span>{taxPrice} $</span></li>
-            <li className="total">Total <span>{subTotalPrice} $</span></li>
-          </ul>
-        </div>
-
-        <div className="checkout">
-          <button type="button">Check Out</button>
-        </div>
-      </section>
+      
+      <Footer 
+        inputCode={inputCode}
+        setInputCode={setInputCode}
+        checkCode={checkCode}
+        subTotalPrice={subTotalPrice}
+        taxPrice={taxPrice}
+        totalPrice={totalPrice}
+        discountPrice={discountPrice}
+        lastPrice={lastPrice}
+      />
     </div>
   );
 }
